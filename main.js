@@ -3,6 +3,7 @@ import { Point, Segment } from './js//primitives';
 
 const world = document.getElementById('world');
 const addPointBtn = document.getElementById('add-point-btn');
+const addSegmentBtn = document.getElementById('add-segment-btn');
 
 world.width = 600;
 world.height = 600;
@@ -27,4 +28,12 @@ addPointBtn.addEventListener('click', () => {
   ctx.clearRect(0, 0, world.width, world.height);
   graph.draw(ctx);
   console.log('success:', success);
+});
+
+addSegmentBtn.addEventListener('click', () => {
+  const index1 = Math.floor(Math.random() * graph.points.length);
+  const index2 = Math.floor(Math.random() * graph.points.length);
+  index1 != index2 ? graph.tryAddSegment(new Segment(graph.points[index1], graph.points[index2])) : null;
+  ctx.clearRect(0, 0, world.width, world.height);
+  graph.draw(ctx);
 });
