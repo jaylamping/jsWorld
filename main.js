@@ -23,7 +23,8 @@ const graph = new Graph([p1, p2, p3, p4], [s1, s2, s3, s4]);
 graph.draw(ctx);
 
 addPointBtn.addEventListener('click', () => {
-  graph.addPoint(new Point(Math.random() * world.width, Math.random() * world.height));
+  const success = graph.tryAddPoint(new Point(Math.random() * world.width, Math.random() * world.height));
   ctx.clearRect(0, 0, world.width, world.height);
   graph.draw(ctx);
+  console.log('success:', success);
 });
