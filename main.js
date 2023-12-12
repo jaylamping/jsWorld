@@ -6,6 +6,7 @@ const addPointBtn = document.getElementById('add-point-btn');
 const addSegmentBtn = document.getElementById('add-segment-btn');
 const removePointBtn = document.getElementById('remove-point-btn');
 const removeSegmentBtn = document.getElementById('remove-segment-btn');
+const clearBtn = document.getElementById('clear-btn');
 
 world.width = 600;
 world.height = 600;
@@ -60,4 +61,9 @@ removeSegmentBtn.addEventListener('click', () => {
   graph.removeSegment(graph.segments[index]);
   ctx.clearRect(0, 0, world.width, world.height);
   graph.draw(ctx);
+});
+
+clearBtn.addEventListener('click', () => {
+  graph.dispose();
+  ctx.clearRect(0, 0, world.width, world.height);
 });

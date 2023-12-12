@@ -58,6 +58,11 @@ class Graph {
     return this.segments.filter(s => s.includes(point));
   }
 
+  dispose() {
+    this.points.length = 0;
+    this.segments.length = 0;
+  }
+
   draw(ctx) {
     for (const seg of this.segments) {
       seg.draw(ctx);
