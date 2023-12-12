@@ -2,6 +2,7 @@ import Graph from './js/math/graph';
 import { Point, Segment } from './js//primitives';
 
 const world = document.getElementById('world');
+const addPointBtn = document.getElementById('add-point-btn');
 
 world.width = 600;
 world.height = 600;
@@ -20,3 +21,9 @@ const s4 = new Segment(p2, p3);
 
 const graph = new Graph([p1, p2, p3, p4], [s1, s2, s3, s4]);
 graph.draw(ctx);
+
+addPointBtn.addEventListener('click', () => {
+  graph.addPoint(new Point(Math.random() * world.width, Math.random() * world.height));
+  ctx.clearRect(0, 0, world.width, world.height);
+  graph.draw(ctx);
+});
