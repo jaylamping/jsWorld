@@ -40,6 +40,10 @@ class Graph {
     const index = this.points.findIndex(p => p.equals(point));
     if (index !== -1) {
       this.points.splice(index, 1);
+      const segments = this.getSegmentsWithPoint(point);
+      for (const seg of segments) {
+        this.removeSegment(seg);
+      }
     }
   }
 
@@ -48,6 +52,10 @@ class Graph {
     if (index !== -1) {
       this.segments.splice(index, 1);
     }
+  }
+
+  getSegmentsWithPoint(point) {
+    return this.segments.filter(s => s.includes(point));
   }
 
   draw(ctx) {

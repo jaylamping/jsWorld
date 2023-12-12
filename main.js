@@ -46,7 +46,7 @@ removePointBtn.addEventListener('click', () => {
     return;
   }
   const index = Math.floor(Math.random() * graph.points.length);
-  graph.points.splice(index, 1);
+  graph.removePoint(graph.points[index]);
   ctx.clearRect(0, 0, world.width, world.height);
   graph.draw(ctx);
 });
