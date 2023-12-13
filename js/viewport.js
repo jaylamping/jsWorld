@@ -24,11 +24,12 @@ class Viewport {
     this.#addEventListeners();
   }
 
-  getMouse(event) {
-    return new Point(
+  getMouse(event, subtractDragOffset = false) {
+    const p = new Point(
       (event.offsetX - this.center.x) * this.zoom - this.offset.x,
       (event.offsetY - this.center.y) * this.zoom - this.offset.y
     );
+    return subtractDragOffset ? subtract(p, this.drag.offset) : p;
   }
 
   getOffset() {

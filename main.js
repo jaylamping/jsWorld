@@ -5,8 +5,8 @@ import { Point, Segment } from './js/primitives';
 
 const world = document.getElementById('world');
 
-world.width = 600;
-world.height = 600;
+world.width = 1200;
+world.height = 800;
 
 const ctx = world.getContext('2d');
 
