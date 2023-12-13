@@ -1,7 +1,15 @@
+import { Point, Segment } from '../primitives';
+
 class Graph {
   constructor(points = [], segments = []) {
     this.points = points;
     this.segments = segments;
+  }
+
+  static load(graphInfo) {
+    const points = graphInfo.points.map(p => new Point(p.x, p.y));
+    const segments = graphInfo.segments.map(s => new Segment(new Point(s.p1.x, s.p1.y), new Point(s.p2.x, s.p2.y)));
+    return new Graph(points, segments);
   }
 
   addPoint(point) {

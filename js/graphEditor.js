@@ -17,6 +17,24 @@ class GraphEditor {
     this.#addEventListeners();
   }
 
+  display() {
+    this.graph.draw(this.ctx);
+    if (this.hovered) {
+      this.hovered.draw(this.ctx, { fill: true });
+    }
+    if (this.selected) {
+      const intent = this.hovered ? this.hovered : this.mouse;
+      new Segment(this.selected, intent).draw(this.ctx, { width: 2, dash: [3, 3] });
+      this.selected.draw(this.ctx, { outline: true });
+    }
+  }
+
+  dispose() {
+    this.graph.dispose();
+    this.selected = null;
+    this.hovered = null;
+  }
+
   #addEventListeners() {
     this.canvas.addEventListener('mousedown', event => this.#handleMouseDown(event));
     this.canvas.addEventListener('mousemove', event => this.#handleMouseMove(event));
@@ -72,18 +90,6 @@ class GraphEditor {
       this.selected = null;
     }
     this.hovered = null;
-  }
-
-  display() {
-    this.graph.draw(this.ctx);
-    if (this.hovered) {
-      this.hovered.draw(this.ctx, { fill: true });
-    }
-    if (this.selected) {
-      const intent = this.hovered ? this.hovered : this.mouse;
-      new Segment(this.selected, intent).draw(this.ctx, { width: 2, dash: [3, 3] });
-      this.selected.draw(this.ctx, { outline: true });
-    }
   }
 }
 
