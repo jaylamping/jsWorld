@@ -1,7 +1,7 @@
 import Graph from './js/math/graph';
 import GraphEditor from './js/GraphEditor';
 import Viewport from './js/Viewport';
-import { Polygon, Envelope } from './js/primitives';
+import { Envelope } from './js/primitives';
 
 const world = document.getElementById('world');
 const clearBtn = document.getElementById('clear-btn');
@@ -23,8 +23,9 @@ animate();
 function animate() {
   viewport.reset();
   graphEditor.display();
-  new Envelope(graph.segments[0].points).draw(ctx);
-  // new Polygon(graph.points).draw(ctx);
+  if (graph.segments.length > 0) {
+    new Envelope(graph.segments[0], 80).draw(ctx);
+  }
   requestAnimationFrame(animate);
 }
 

@@ -28,3 +28,11 @@ export function subtract(p1, p2) {
 export function scale(p, scaler) {
   return new Point(p.x * scaler, p.y * scaler);
 }
+
+export function translate(location, angle, offset) {
+  return new Point(location.x + Math.cos(angle) * offset, location.y + Math.sin(angle) * offset);
+}
+
+export function angle(p) {
+  return Math.atan2(p.y, p.x);
+}
