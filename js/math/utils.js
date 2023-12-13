@@ -1,9 +1,9 @@
-export function getNearestPoint(location, points) {
+export function getNearestPoint(location, points, threshold = Infinity) {
   let nearest = null;
   let minDistance = Infinity;
   points.forEach(point => {
     const distance = distanceTo(point, location);
-    if (distance < minDistance) {
+    if (distance < minDistance && distance < threshold) {
       minDistance = distance;
       nearest = point;
     }
