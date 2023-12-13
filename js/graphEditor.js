@@ -10,6 +10,7 @@ class GraphEditor {
 
     this.selected = null;
     this.hovered = null;
+    this.dragging = false;
 
     this.#addEventListeners();
   }
@@ -27,23 +28,32 @@ class GraphEditor {
         const mouse = new Point(event.offsetX, event.offsetY);
         if (this.hovered) {
           this.selected = this.hovered;
+          this.dragging = true;
           return;
         }
         this.graph.addPoint(mouse);
         this.selected = mouse;
+        this.hovered = mouse;
       }
     });
     this.canvas.addEventListener('mousemove', event => {
       const mouse = new Point(event.offsetX, event.offsetY);
       this.hovered = getNearestPoint(mouse, this.graph.points, 20);
+      if (this.dragging) {
+        this.selected.x = mouse.x;
+        this.selected.y = mouse.y;
+      }
     });
     // prevent context menu
     this.canvas.addEventListener('contextmenu', event => event.preventDefault());
+    this.canvas.addEventListener('mouseup', () => (this.dragging = false));
   }
 
   #removePoint(point) {
     this.graph.removePoint(point);
-    this.selected = null;
+    if (this.selected === point) {
+      this.selected = null;
+    }
     this.hovered = null;
   }
 
