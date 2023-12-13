@@ -22,13 +22,16 @@ const s4 = new Segment(p2, p3);
 
 const graph = new Graph([p1, p2, p3, p4], [s1, s2, s3, s4]);
 const viewport = new Viewport(world);
-const graphEditor = new GraphEditor(world, graph);
+const graphEditor = new GraphEditor(viewport, graph);
 
 animate();
 
 function animate() {
   ctx.clearRect(0, 0, world.width, world.height);
+  ctx.save();
+  ctx.scale(1 / viewport.zoom, 1 / viewport.zoom);
   graphEditor.display();
+  ctx.restore();
   requestAnimationFrame(animate);
 }
 

@@ -2,8 +2,9 @@ import { Point, Segment } from './primitives';
 import { getNearestPoint } from './math/utils';
 
 class GraphEditor {
-  constructor(canvas, graph) {
-    this.canvas = canvas;
+  constructor(viewport, graph) {
+    this.viewport = viewport;
+    this.canvas = viewport.canvas;
     this.graph = graph;
 
     this.ctx = this.canvas.getContext('2d');
@@ -35,7 +36,7 @@ class GraphEditor {
     }
     // left click
     if (event.button == 0) {
-      this.mouse = new Point(event.offsetX, event.offsetY);
+      this.mouse = this.viewport.getMouse(event);
       if (this.hovered) {
         this.#selectPoint(this.hovered);
         this.selected = this.hovered;
@@ -50,8 +51,8 @@ class GraphEditor {
   }
 
   #handleMouseMove(event) {
-    this.mouse = new Point(event.offsetX, event.offsetY);
-    this.hovered = getNearestPoint(this.mouse, this.graph.points, 25);
+    this.mouse = this.viewport.getMouse(event);
+    this.hovered = getNearestPoint(this.mouse, this.graph.points, 25 * this.viewport.zoom);
     if (this.dragging) {
       this.selected.x = this.mouse.x;
       this.selected.y = this.mouse.y;
