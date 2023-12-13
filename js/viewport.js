@@ -1,4 +1,5 @@
 import { Point } from './primitives/index';
+import { add, subtract, scale } from './math/utils';
 
 class Viewport {
   constructor(canvas) {
@@ -9,7 +10,9 @@ class Viewport {
     this.minZoom = 1;
     this.maxZoom = 10;
 
-    this.offset = new Point(0, 0);
+    this.center = new Point(this.canvas.width / 2, this.canvas.height / 2);
+
+    this.offset = scale(this.center, -1);
 
     this.drag = {
       start: new Point(0, 0),
@@ -22,7 +25,14 @@ class Viewport {
   }
 
   getMouse(event) {
-    return new Point(event.offsetX * this.zoom, event.offsetY * this.zoom);
+    return new Point(
+      (event.offsetX - this.center.x) * this.zoom - this.offset.x,
+      (event.offsetY - this.center.y) * this.zoom - this.offset.y
+    );
+  }
+
+  getOffset() {
+    return add(this.offset, this.drag.offset);
   }
 
   #addEventListeners() {
