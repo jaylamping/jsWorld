@@ -24,6 +24,16 @@ class Viewport {
     this.#addEventListeners();
   }
 
+  reset() {
+    this.ctx.restore();
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.save();
+    this.ctx.translate(this.center.x, this.center.y);
+    this.ctx.scale(1 / this.zoom, 1 / this.zoom);
+    const offset = this.getOffset();
+    this.ctx.translate(offset.x, offset.y);
+  }
+
   getMouse(event, subtractDragOffset = false) {
     const p = new Point(
       (event.offsetX - this.center.x) * this.zoom - this.offset.x,
@@ -45,7 +55,7 @@ class Viewport {
 
   #handleWheel(event) {
     const dir = Math.sign(event.deltaY);
-    this.zoom += dir * 0.1;
+    this.zoom += dir * 0.2;
     this.zoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.zoom));
   }
 
