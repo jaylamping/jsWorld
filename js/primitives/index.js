@@ -1,2 +1,3 @@
-export { Point } from './point';
-export { Segment } from './segment';
+export { Point } from './Point';
+export { Segment } from './Segment';
+export { Polygon } from './Polygon';

@@ -1,6 +1,7 @@
 import Graph from './js/math/graph';
-import GraphEditor from './js/graphEditor';
-import Viewport from './js/viewport';
+import GraphEditor from './js/GraphEditor';
+import Viewport from './js/Viewport';
+import { Polygon } from './js/primitives';
 
 const world = document.getElementById('world');
 const clearBtn = document.getElementById('clear-btn');
@@ -22,7 +23,7 @@ animate();
 function animate() {
   viewport.reset();
   graphEditor.display();
-
+  new Polygon(graph.points).draw(ctx);
   requestAnimationFrame(animate);
 }
 
