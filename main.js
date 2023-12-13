@@ -1,5 +1,6 @@
 import Graph from './js/math/graph';
 import GraphEditor from './js/graphEditor';
+import Viewport from './js/viewport';
 import { Point, Segment } from './js/primitives';
 
 const world = document.getElementById('world');
@@ -20,6 +21,7 @@ const s3 = new Segment(p1, p4);
 const s4 = new Segment(p2, p3);
 
 const graph = new Graph([p1, p2, p3, p4], [s1, s2, s3, s4]);
+const viewport = new Viewport(world);
 const graphEditor = new GraphEditor(world, graph);
 
 animate();
