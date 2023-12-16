@@ -1,4 +1,5 @@
 import { Point, Segment } from './index';
+import { getIntersection } from '../math/utils';
 
 export class Polygon {
   constructor(points) {
