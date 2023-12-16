@@ -42,19 +42,17 @@ export function getIntersection(a, b, c, d) {
   const uTop = (c.y - a.y) * (a.x - b.x) - (c.x - a.x) * (a.y - b.y);
   const bot = (b.x - a.x) * (d.y - c.y) - (b.y - a.y) * (d.x - c.x);
 
-  if (bot === 0) {
-    return null;
-  }
+  if (bot != 0) {
+    const t = tTop / bot;
+    const u = uTop / bot;
 
-  const t = tTop / bot;
-  const u = uTop / bot;
-
-  if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
-    return {
-      x: lerp(a.x, b.x, t),
-      y: lerp(a.y, b.y, t),
-      offset: t
-    };
+    if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
+      return {
+        x: lerp(a.x, b.x, t),
+        y: lerp(a.y, b.y, t),
+        offset: t
+      };
+    }
   }
 }
 

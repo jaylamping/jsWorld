@@ -34,6 +34,8 @@ export class Polygon {
         console.log(segs1[i], segs2[j]);
         const int = getIntersection(segs1[i].p1, segs1[i].p2, segs2[j].p1, segs2[j].p2);
         if (int && int.offset != 1 && int.offset != 0) {
+          const point = new Point(int.x, int.y);
+          console.log('point', point);
           ints.push(new Point(int.x, int.y));
         }
       }
