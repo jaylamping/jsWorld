@@ -15,6 +15,7 @@ const ctx = canvas.getContext('2d');
 const localStorageGraph = localStorage.getItem('graph');
 const graphInfo = localStorageGraph ? JSON.parse(localStorageGraph) : null;
 const graph = graphInfo ? Graph.load(graphInfo) : new Graph();
+const world = new World(graph);
 const viewport = new Viewport(canvas);
 const graphEditor = new GraphEditor(viewport, graph);
 
@@ -22,10 +23,9 @@ animate();
 
 function animate() {
   viewport.reset();
+  world.generate();
+  world.draw(ctx);
   graphEditor.display();
-  if (graph.segments.length > 0) {
-    new Envelope(graph.segments[0], 80).draw(ctx);
-  }
   requestAnimationFrame(animate);
 }
 
