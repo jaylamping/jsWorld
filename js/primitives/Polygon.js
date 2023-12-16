@@ -1,3 +1,5 @@
+import { Point, Segment } from './index';
+
 export class Polygon {
   constructor(points) {
     this.points = points;
@@ -9,16 +11,16 @@ export class Polygon {
   }
 
   static break(poly1, poly2) {
-    const intersections = [];
+    const ints = [];
     for (const seg1 of poly1.segments) {
       for (const seg2 of poly2.segments) {
-        const intersection = seg1.getIntersection(seg2);
-        if (intersection) {
-          intersections.push(intersection);
+        const int = getIntersection(seg1.p1, seg1.p2, seg2.p1, seg2.p2);
+        if (int && int.offset != 1 && int.offset != 0) {
+          ints.push(new Point(int.x, int.y));
         }
       }
     }
-    return intersections;
+    return ints;
   }
 
   draw(ctx, { stroke = 'blue', lineWidth = 2, fill = 'rgba(0, 0, 255, 0.3)' } = {}) {
