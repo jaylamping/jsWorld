@@ -11,17 +11,34 @@ export class Polygon {
     }
   }
 
+  // static break(poly1, poly2) {
+  //   const ints = [];
+  //   for (const seg1 of poly1.segments) {
+  //     for (const seg2 of poly2.segments) {
+  //       const int = getIntersection(seg1.p1, seg1.p2, seg2.p1, seg2.p2);
+  //       console.log(int);
+  //       if (int && int.offset != 1 && int.offset != 0) {
+  //         ints.push(new Point(int.x, int.y));
+  //       }
+  //     }
+  //   }
+  //   return ints;
+  // }
+
   static break(poly1, poly2) {
+    const segs1 = poly1.segments;
+    const segs2 = poly2.segments;
     const ints = [];
-    for (const seg1 of poly1.segments) {
-      for (const seg2 of poly2.segments) {
-        const int = getIntersection(seg1.p1, seg1.p2, seg2.p1, seg2.p2);
+    for (let i = 0; i < segs1.length; i++) {
+      for (let j = 0; j < segs2.length; j++) {
+        console.log(segs1[i]);
+        const int = getIntersection(segs1[i].p1, segs1[i].p2, segs2[j].p1, segs2[j].p2);
         if (int && int.offset != 1 && int.offset != 0) {
           ints.push(new Point(int.x, int.y));
         }
       }
+      return ints;
     }
-    return ints;
   }
 
   draw(ctx, { stroke = 'blue', lineWidth = 2, fill = 'rgba(0, 0, 255, 0.3)' } = {}) {
