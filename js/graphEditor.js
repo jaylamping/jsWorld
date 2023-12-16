@@ -1,4 +1,4 @@
-import { Segment } from './primitives';
+import { Segment, Point } from './primitives';
 import { getNearestPoint } from './math/utils';
 
 class GraphEditor {
@@ -54,30 +54,27 @@ class GraphEditor {
     }
     // left click
     if (event.button == 0) {
-      this.mouse = this.viewport.getMouse(event);
       if (this.hovered) {
-        this.#selectPoint(this.hovered);
-        this.selected = this.hovered;
+        this.#select(this.hovered);
         this.dragging = true;
         return;
       }
       this.graph.addPoint(this.mouse);
-      this.#selectPoint(this.mouse);
-      this.selected = this.mouse;
+      this.#select(this.mouse);
       this.hovered = this.mouse;
     }
   }
 
-  #handleMouseMove(event) {
-    this.mouse = this.viewport.getMouse(event, true);
-    this.hovered = getNearestPoint(this.mouse, this.graph.points, 25 * this.viewport.zoom);
-    if (this.dragging) {
+  #handleMouseMove(evt) {
+    this.mouse = new Point(evt.offsetX, evt.offsetY);
+    this.hovered = getNearestPoint(this.mouse, this.graph.points, 10);
+    if (this.dragging == true) {
       this.selected.x = this.mouse.x;
       this.selected.y = this.mouse.y;
     }
   }
 
-  #selectPoint(point) {
+  #select(point) {
     if (this.selected) {
       this.graph.tryAddSegment(new Segment(this.selected, point));
     }
