@@ -38,8 +38,8 @@ export function angle(p) {
 }
 
 export function getIntersection(a, b, c, d) {
-  const tTop = (d.x - c.x) * (a.y - c.y) - (d.x - c.x) * (a.y - c.y);
-  const uTop = (a.y - c.y) * (b.x - a.x) - (a.x - c.x) * (b.y - a.y);
+  const tTop = (d.x - c.x) * (a.y - c.y) - (d.y - c.y) * (a.x - c.x);
+  const uTop = (c.y - a.y) * (a.x - b.x) - (c.x - a.x) * (a.y - b.y);
   const bot = (b.x - a.x) * (d.y - c.y) - (b.y - a.y) * (d.x - c.x);
 
   if (bot === 0) {

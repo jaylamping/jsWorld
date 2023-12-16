@@ -17,6 +17,10 @@ class World {
       this.envelopes.push(new Envelope(segment, this.roadWidth, this.roadRoundness));
     }
 
+    console.log(this.graph.segments);
+
+    console.log(this.envelopes);
+
     this.intersections = Polygon.break(this.envelopes[0].poly, this.envelopes[1].poly);
   }
 
