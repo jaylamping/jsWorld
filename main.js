@@ -1,7 +1,7 @@
 import Graph from './js/math/Graph';
 import GraphEditor from './js/GraphEditor';
 import Viewport from './js/Viewport';
-import { Envelope } from './js/primitives';
+import World from './js/World';
 
 const canvas = document.getElementById('canvas');
 const clearBtn = document.getElementById('clear-btn');
