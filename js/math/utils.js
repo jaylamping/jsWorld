@@ -1,20 +1,24 @@
 import { Point } from '../primitives/index';
 
-export function getNearestPoint(location, points, threshold = Infinity) {
+export function getNearestPoint(loc, points, threshold = Infinity) {
+  let minDist = Infinity;
   let nearest = null;
-  let minDistance = Infinity;
-  points.forEach(point => {
-    const distance = distanceTo(point, location);
-    if (distance < minDistance && distance < threshold) {
-      minDistance = distance;
+  for (const point of points) {
+    const dist = distance(point, loc);
+    if (dist < minDist && dist < threshold) {
+      minDist = dist;
       nearest = point;
     }
-  });
+  }
   return nearest;
 }
 
-export function distanceTo(p1, p2) {
+export function distance(p1, p2) {
   return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+}
+
+export function average(p1, p2) {
+  return new Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 }
 
 export function add(p1, p2) {
@@ -29,33 +33,39 @@ export function scale(p, scaler) {
   return new Point(p.x * scaler, p.y * scaler);
 }
 
-export function translate(location, angle, offset) {
-  return new Point(location.x + Math.cos(angle) * offset, location.y + Math.sin(angle) * offset);
+export function translate(loc, angle, offset) {
+  return new Point(loc.x + Math.cos(angle) * offset, loc.y + Math.sin(angle) * offset);
 }
 
 export function angle(p) {
   return Math.atan2(p.y, p.x);
 }
 
-export function getIntersection(a, b, c, d) {
-  const tTop = (d.x - c.x) * (a.y - c.y) - (d.y - c.y) * (a.x - c.x);
-  const uTop = (c.y - a.y) * (a.x - b.x) - (c.x - a.x) * (a.y - b.y);
-  const bot = (b.x - a.x) * (d.y - c.y) - (b.y - a.y) * (d.x - c.x);
+export function getIntersection(A, B, C, D) {
+  const tTop = (D.x - C.x) * (A.y - C.y) - (D.y - C.y) * (A.x - C.x);
+  const uTop = (C.y - A.y) * (A.x - B.x) - (C.x - A.x) * (A.y - B.y);
+  const bottom = (D.y - C.y) * (B.x - A.x) - (D.x - C.x) * (B.y - A.y);
 
-  if (bot != 0) {
-    const t = tTop / bot;
-    const u = uTop / bot;
-
+  if (bottom != 0) {
+    const t = tTop / bottom;
+    const u = uTop / bottom;
     if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
       return {
-        x: lerp(a.x, b.x, t),
-        y: lerp(a.y, b.y, t),
+        x: lerp(A.x, B.x, t),
+        y: lerp(A.y, B.y, t),
         offset: t
       };
     }
   }
+
+  return null;
 }
 
 export function lerp(a, b, t) {
   return a + (b - a) * t;
+}
+
+export function getRandomColor() {
+  const hue = 290 + Math.random() * 260;
+  return 'hsl(' + hue + ', 100%, 60%)';
 }

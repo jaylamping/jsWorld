@@ -1,7 +1,7 @@
 import { Point, Segment } from './';
-import { getIntersection } from '../math/utils';
+import { average, getIntersection } from '../math/utils';
 
-class Polygon {
+export class Polygon {
   constructor(points) {
     this.points = points;
     this.segments = [];
@@ -97,5 +97,3 @@ class Polygon {
     ctx.stroke();
   }
 }
-
-export default Polygon;
