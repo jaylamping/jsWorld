@@ -1,21 +1,21 @@
-import Graph from './js/math/graph';
+import Graph from './js/math/Graph';
 import GraphEditor from './js/GraphEditor';
 import Viewport from './js/Viewport';
 import { Envelope } from './js/primitives';
 
-const world = document.getElementById('world');
+const canvas = document.getElementById('canvas');
 const clearBtn = document.getElementById('clear-btn');
 const saveBtn = document.getElementById('save-btn');
 
-world.width = 1200;
-world.height = 750;
+canvas.width = 1200;
+canvas.height = 750;
 
-const ctx = world.getContext('2d');
+const ctx = canvas.getContext('2d');
 
 const localStorageGraph = localStorage.getItem('graph');
 const graphInfo = localStorageGraph ? JSON.parse(localStorageGraph) : null;
 const graph = graphInfo ? Graph.load(graphInfo) : new Graph();
-const viewport = new Viewport(world);
+const viewport = new Viewport(canvas);
 const graphEditor = new GraphEditor(viewport, graph);
 
 animate();

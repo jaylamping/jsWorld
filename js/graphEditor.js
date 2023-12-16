@@ -1,4 +1,4 @@
-import { Point, Segment } from './primitives';
+import { Segment } from './primitives';
 import { getNearestPoint } from './math/utils';
 
 class GraphEditor {
