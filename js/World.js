@@ -13,16 +13,20 @@ class World {
 
   generate() {
     this.envelopes.length = 0;
-    this.graph.segments.forEach(segment => {
+    for (const segment of this.graph.segments) {
       this.envelopes.push(new Envelope(segment, this.roadWidth, this.roadRoundness));
-    });
-    console.log(this.envelopes[0].poly, this.envelopes[1].poly);
+    }
+
     this.intersections = Polygon.break(this.envelopes[0].poly, this.envelopes[1].poly);
   }
 
   draw(ctx) {
-    this.envelopes.forEach(envelope => envelope.draw(ctx));
-    this.intersections.forEach(intersection => intersection.draw(ctx, { color: 'red', size: 6 }));
+    for (const envelope of this.envelopes) {
+      envelope.draw(ctx);
+    }
+    for (int of this.intersections) {
+      int.draw(ctx);
+    }
   }
 }
 
