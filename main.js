@@ -19,6 +19,8 @@ const world = new World(graph);
 const viewport = new Viewport(canvas);
 const graphEditor = new GraphEditor(viewport, graph);
 
+console.log(graphInfo);
+
 animate();
 
 function animate() {
