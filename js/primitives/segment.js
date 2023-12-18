@@ -1,7 +1,17 @@
+import { distance, normalize, subtract } from '../math/utils';
+
 export class Segment {
   constructor(p1, p2) {
     this.p1 = p1;
     this.p2 = p2;
+  }
+
+  length() {
+    return distance(this.p1, this.p2);
+  }
+
+  directionVector() {
+    return normalize(subtract(this.p2, this.p1));
   }
 
   equals(segment) {

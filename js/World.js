@@ -1,4 +1,5 @@
-import { Envelope, Polygon } from './primitives';
+import { Envelope, Polygon, Segment } from './primitives';
+import { add, scale } from './math/utils';
 
 class World {
   constructor(graph, roadWidth = 80, roadRoundness = 10, buildingWidth = 150, buildingMinLength = 150, spacing = 50) {
@@ -48,6 +49,28 @@ class World {
     }
 
     const guides = Polygon.union(tempEnvelopes.map(e => e.poly));
+
+    for (let i = 0; i < guides.length; i++) {
+      const seg = guides[i];
+      if (seg.length() < this.buildingMinLength) {
+        guides.splice(i, 1);
+        i--;
+      }
+    }
+
+    const supports = [];
+
+    for (let seg of guides) {
+      const len = seg.length() + this.spacing;
+      const buildingCnt = Math.floor(len / this.buildingMinLength + this.spacing);
+      const buildingLen = len / buildingCnt - this.spacing;
+
+      const dir = seg.directionVector();
+
+      let q1 = seg.p1;
+      let q2 = add(q1, scale(dir, buildingLen));
+      supports.push(new Segment(q1, q2));
+    }
 
     return guides;
   }
