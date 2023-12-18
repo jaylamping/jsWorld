@@ -33,5 +33,3 @@ function animate() {
 clearBtn.addEventListener('click', () => graphEditor.dispose());
 
 saveBtn.addEventListener('click', () => localStorage.setItem('graph', JSON.stringify(graph)));
-
-graph.draw(ctx);
