@@ -62,7 +62,7 @@ class World {
 
     for (let seg of guides) {
       const len = seg.length() + this.spacing;
-      const buildingCnt = Math.floor(len / this.buildingMinLength + this.spacing);
+      const buildingCnt = Math.floor(len / (this.buildingMinLength + this.spacing));
       const buildingLen = len / buildingCnt - this.spacing;
 
       const dir = seg.directionVector();
@@ -70,9 +70,30 @@ class World {
       let q1 = seg.p1;
       let q2 = add(q1, scale(dir, buildingLen));
       supports.push(new Segment(q1, q2));
+
+      for (let i = 2; i <= buildingCnt; i++) {
+        q1 = add(q2, scale(dir, this.spacing));
+        q2 = add(q1, scale(dir, buildingLen));
+        supports.push(new Segment(q1, q2));
+      }
     }
 
-    return guides;
+    const bases = [];
+
+    for (const seg of supports) {
+      bases.push(new Envelope(seg, this.buildingWidth).poly);
+    }
+
+    for (let i = 0; i < bases.length - 1; i++) {
+      for (let j = i + 1; j < bases.length; j++) {
+        if (bases[i].intersectsPoly(bases[j])) {
+          bases.splice(j, 1);
+          j--;
+        }
+      }
+    }
+
+    return bases;
   }
 }
 
