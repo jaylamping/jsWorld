@@ -19,13 +19,16 @@ const world = new World(graph);
 const viewport = new Viewport(canvas);
 const graphEditor = new GraphEditor(viewport, graph);
 
-console.log(graphInfo);
+let prevGraphHash = graph.hash();
 
 animate();
 
 function animate() {
   viewport.reset();
-  world.generate();
+  if (graph.hash() != prevGraphHash) {
+    world.generate();
+    prevGraphHash = graph.hash();
+  }
   world.draw(ctx);
   ctx.globalAlpha = 0.3;
   graphEditor.display();

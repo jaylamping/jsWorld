@@ -42,6 +42,9 @@ class World {
     for (const bld of this.buildings) {
       bld.draw(ctx);
     }
+    for (const tree of this.trees) {
+      tree.draw(ctx);
+    }
   }
 
   #generateTrees(count = 10) {
