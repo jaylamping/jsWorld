@@ -1,5 +1,5 @@
-import { Envelope, Polygon, Segment } from './primitives';
-import { add, scale } from './math/utils';
+import { Envelope, Point, Polygon, Segment } from './primitives';
+import { add, lerp, scale } from './math/utils';
 
 class World {
   constructor(graph, roadWidth = 80, roadRoundness = 10, buildingWidth = 150, buildingMinLength = 150, spacing = 50) {
@@ -13,6 +13,7 @@ class World {
     this.envelopes = [];
     this.roadBorders = [];
     this.buildings = [];
+    this.trees = [];
 
     this.generate();
   }
@@ -25,6 +26,7 @@ class World {
 
     this.roadBorders = Polygon.union(this.envelopes.map(e => e.poly));
     this.buildings = this.#generateBuildings();
+    this.trees = this.#generateTrees();
   }
 
   draw(ctx) {
@@ -40,6 +42,21 @@ class World {
     for (const bld of this.buildings) {
       bld.draw(ctx);
     }
+  }
+
+  #generateTrees(count = 10) {
+    const points = [...this.roadBorders.map(s => [s.p1, s.p2]).flat(), ...this.buildings.map(b => b.points).flat()];
+    const left = Math.min(...points.map(p => p.x));
+    const right = Math.max(...points.map(p => p.x));
+    const bottom = Math.min(...points.map(p => p.y));
+    const top = Math.max(...points.map(p => p.y));
+
+    const trees = [];
+    while (trees.length < count) {
+      const p = new Point(lerp(left, right, Math.random()), lerp(bottom, top, Math.random()));
+      trees.push(p);
+    }
+    return trees;
   }
 
   #generateBuildings() {
