@@ -1,15 +1,23 @@
 import { Envelope, Point, Polygon, Segment } from './primitives';
-import { add, lerp, scale } from './math/utils';
+import { add, lerp, scale, distance } from './math/utils';
 
 class World {
-  constructor(graph, roadWidth = 80, roadRoundness = 10, buildingWidth = 150, buildingMinLength = 150, spacing = 50) {
+  constructor(
+    graph,
+    roadWidth = 80,
+    roadRoundness = 10,
+    buildingWidth = 150,
+    buildingMinLength = 150,
+    spacing = 50,
+    treeSize = 160
+  ) {
     this.graph = graph;
     this.roadWidth = roadWidth;
     this.roadRoundness = roadRoundness;
     this.buildingWidth = buildingWidth;
     this.buildingMinLength = buildingMinLength;
     this.spacing = spacing;
-
+    this.treeSize = treeSize;
     this.envelopes = [];
     this.roadBorders = [];
     this.buildings = [];
@@ -43,7 +51,7 @@ class World {
       bld.draw(ctx);
     }
     for (const tree of this.trees) {
-      tree.draw(ctx);
+      tree.draw(ctx, { size: this.treeSize, color: 'rgba(0,0,0,0.5' });
     }
   }
 
@@ -54,11 +62,36 @@ class World {
     const bottom = Math.min(...points.map(p => p.y));
     const top = Math.max(...points.map(p => p.y));
 
+    const badPolys = [...this.buildings, ...this.envelopes.map(e => e.poly)];
+
     const trees = [];
     while (trees.length < count) {
       const p = new Point(lerp(left, right, Math.random()), lerp(bottom, top, Math.random()));
-      trees.push(p);
+
+      // check if a tree is inside a building or road
+      let keep = true;
+      for (const poly of badPolys) {
+        if (poly.containsPoint(p) || poly.distanceToPoint(p) < this.treeSize / 2) {
+          keep = false;
+          break;
+        }
+      }
+
+      // check if a tree is too close to another tree
+      if (keep) {
+        for (const tree of trees) {
+          if (distance(tree, p) < this.treeSize) {
+            keep = false;
+            break;
+          }
+        }
+      }
+
+      if (keep) {
+        trees.push(p);
+      }
     }
+
     return trees;
   }
 

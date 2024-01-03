@@ -21,6 +21,10 @@ export function average(p1, p2) {
   return new Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 }
 
+export function dot(p1, p2) {
+  return p1.x * p2.x + p1.y * p2.y;
+}
+
 export function add(p1, p2) {
   return new Point(p1.x + p2.x, p1.y + p2.y);
 }
@@ -70,6 +74,9 @@ export function getIntersection(A, B, C, D) {
   return null;
 }
 
+/**
+ * Linear interpolation between two values.
+ */
 export function lerp(a, b, t) {
   return a + (b - a) * t;
 }

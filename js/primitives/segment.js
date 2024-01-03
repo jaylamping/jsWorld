@@ -1,4 +1,4 @@
-import { distance, normalize, subtract } from '../math/utils';
+import { distance, magnitude, normalize, subtract, dot, add, scale } from '../math/utils';
 
 export class Segment {
   constructor(p1, p2) {
@@ -20,6 +20,28 @@ export class Segment {
 
   includes(point) {
     return this.p1.equals(point) || this.p2.equals(point);
+  }
+
+  distanceToPoint(point) {
+    const proj = this.projectPoint(point);
+    if (proj.offset > 0 && proj.offset < 1) {
+      return distance(point, proj.point);
+    }
+    const distP1 = distance(point, this.p1);
+    const distP2 = distance(point, this.p2);
+    return Math.min(distP1, distP2);
+  }
+
+  projectPoint(point) {
+    const a = subtract(point, this.p1);
+    const b = subtract(this.p2, this.p1);
+    const normB = normalize(b);
+    const scaler = dot(a, normB);
+    const proj = {
+      point: add(this.p1, scale(normB, scaler)),
+      offset: scaler / magnitude(b)
+    };
+    return proj;
   }
 
   draw(ctx, { width = 2, color = 'black', dash = [] } = {}) {
